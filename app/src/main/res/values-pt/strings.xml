@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Rascunhos@Android</string>
+    <string name="sketches">Rascunhos</string>
+    <string name="solid_color">Cor Sólida</string>
+    <string name="gallery">Imagem da Galeria</string>
+    <string name="photo">Fotografia</string>
+    <string name="history">História</string>
+    <string name="todo">A aguardar desenvolvimento…</string>
+</resources>

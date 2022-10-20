@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Skizzen@Android</string>
+    <string name="sketches">Skizzen</string>
+    <string name="solid_color">Einfarbig</string>
+    <string name="gallery">Galeriebild</string>
+    <string name="photo">Foto</string>
+    <string name="history">Geschichte</string>
+    <string name="todo">Entwickelt werden...</string>
+</resources>
