@@ -1,9 +1,15 @@
 package pt.pedrocorreia.sketches
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.SeekBar
+import android.widget.Toast
 import pt.pedrocorreia.sketches.databinding.ActivityConfigColorBinding
 import pt.pedrocorreia.sketches.databinding.ActivityMainBinding
 
@@ -53,5 +59,31 @@ class ConfigColorActivity : AppCompatActivity() {
     fun updateView(){
         var color = Color.rgb(binding.seekRed.progress, binding.seekGreen.progress, binding.seekBlue.progress)
         binding.frPreview.setBackgroundColor(color)
+    }
+
+    // Create "create" menu
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.create_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id : Int = item.itemId
+        if(id == R.id.menuCreate){
+            if(binding.edTitle.text.isEmpty()){
+                Toast.makeText(this, R.string.msg_empty_title, Toast.LENGTH_LONG).show()
+                binding.edTitle.requestFocus()
+                return true
+            }
+            intent = Intent(this, DrawingAreaActivity::class.java)
+            intent.putExtra("Red", binding.seekRed.progress)
+            intent.putExtra("Green", binding.seekGreen.progress)
+            intent.putExtra("Blue", binding.seekBlue.progress)
+            intent.putExtra("Title", "${binding.edTitle.text}")
+            startActivity(intent)
+            finish() // to return to main activity
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

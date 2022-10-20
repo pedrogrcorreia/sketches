@@ -11,4 +11,5 @@
     <string name="ask_background_color">Cor de fundo</string>
     <string name="msg_empty_title">Deve introduzir um título</string>
     <string name="str_no_name">Sem nome</string>
+    <string name="create">Criar</string>
 </resources>
