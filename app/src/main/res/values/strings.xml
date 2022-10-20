@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Sketches@Android</string>
+    <string name="sketches">Sketches</string>
+    <string name="solid_color">Solid Color</string>
+    <string name="gallery">Gallery Image</string>
+    <string name="photo">Photo</string>
+    <string name="history">History</string>
 </resources>
