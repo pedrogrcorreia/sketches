@@ -6,4 +6,9 @@
     <string name="photo">Fotografia</string>
     <string name="history">História</string>
     <string name="todo">A aguardar desenvolvimento…</string>
+    <string name="ask_title">Título:</string>
+    <string name="hint_title">Título do rascunho</string>
+    <string name="ask_background_color">Cor de fundo</string>
+    <string name="msg_empty_title">Deve introduzir um título</string>
+    <string name="str_no_name">Sem nome</string>
 </resources>

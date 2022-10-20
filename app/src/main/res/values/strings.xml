@@ -5,5 +5,13 @@
     <string name="gallery">Gallery Image</string>
     <string name="photo">Photo</string>
     <string name="history">History</string>
-    <string name="todo">To be developed...</string>
+    <string name="todo">To be developed…</string>
+    <string name="ask_title">Title:</string>
+    <string name="hint_title">Sketch title</string>
+    <string name="ask_background_color">Background Color:</string>
+    <string name="ask_red" translatable="false">R:</string>
+    <string name="ask_green" translatable="false">G:</string>
+    <string name="ask_blue" translatable="false">B:</string>
+    <string name="msg_empty_title">You must give a title</string>
+    <string name="str_no_name">No name</string>
 </resources>
