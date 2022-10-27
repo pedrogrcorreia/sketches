@@ -30,7 +30,18 @@ class DrawingArea @JvmOverloads constructor(
         it.style = Paint.Style.FILL_AND_STROKE
     }
 
-    val path = Path()
+    var lineColor = Color.BLACK
+        set(value){
+            field = value
+            drawing.add(Line(Path(), value))
+        }
+//    val path = Path()
+    val drawing : ArrayList<Line> = arrayListOf(
+        Line(Path(), lineColor)
+    )
+
+    val path : Path
+        get() = drawing.last().path
 
     var backColor : Int = Color.WHITE
 
@@ -46,7 +57,11 @@ class DrawingArea @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 //        canvas?.drawLine(50f,50f,250f,250f, paint)
-        canvas?.drawPath(path, paint)
+        for(line in drawing) {
+            canvas?.drawPath(line.path, paint.apply {
+                color = line.color
+            })
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

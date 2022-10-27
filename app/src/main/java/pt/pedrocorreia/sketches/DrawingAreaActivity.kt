@@ -63,7 +63,7 @@ class DrawingAreaActivity : AppCompatActivity() {
             item.itemId == R.id.mnSave -> {}
             item.groupId == R.id.grpColors -> {
                 item.isChecked = true
-                var color = when(item.itemId) {
+                drawingArea.lineColor = when(item.itemId) {
                     R.id.mnWhite -> Color.WHITE
                     R.id.mnBlue -> Color.BLUE
                     R.id.mnYellow -> Color.YELLOW
