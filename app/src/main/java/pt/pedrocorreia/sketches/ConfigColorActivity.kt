@@ -57,7 +57,7 @@ class ConfigColorActivity : AppCompatActivity() {
     }
 
     fun updateView(){
-        var color = Color.rgb(binding.seekRed.progress, binding.seekGreen.progress, binding.seekBlue.progress)
+//        var color = Color.rgb(binding.seekRed.progress, binding.seekGreen.progress, binding.seekBlue.progress)
         binding.frPreview.setBackgroundColor(color)
     }
 
@@ -68,6 +68,13 @@ class ConfigColorActivity : AppCompatActivity() {
         return true
     }
 
+    var color : Int = Color.WHITE
+        get() = Color.rgb(
+            binding.seekRed.progress,
+            binding.seekGreen.progress,
+            binding.seekBlue.progress,
+        )
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id : Int = item.itemId
         if(id == R.id.menuCreate){
@@ -76,11 +83,18 @@ class ConfigColorActivity : AppCompatActivity() {
                 binding.edTitle.requestFocus()
                 return true
             }
-            intent = Intent(this, DrawingAreaActivity::class.java)
-            intent.putExtra("Red", binding.seekRed.progress)
-            intent.putExtra("Green", binding.seekGreen.progress)
-            intent.putExtra("Blue", binding.seekBlue.progress)
-            intent.putExtra("Title", "${binding.edTitle.text}")
+//            intent = Intent(this, DrawingAreaActivity::class.java)
+//            intent.putExtra("Red", binding.seekRed.progress)
+//            intent.putExtra("Green", binding.seekGreen.progress)
+//            intent.putExtra("Blue", binding.seekBlue.progress)
+//            intent.putExtra("Title", "${binding.edTitle.text}")
+
+            val intent = DrawingAreaActivity.getIntent(
+                this,
+                binding.edTitle.text.toString(),
+                color,
+                )
+
             startActivity(intent)
             finish() // to return to main activity
         }
