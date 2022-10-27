@@ -14,11 +14,22 @@ class DrawingArea @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
+
     val paint = Paint(Paint.DITHER_FLAG).also {
         it.color = Color.BLACK
         it.strokeWidth = 4.0f
         it.style = Paint.Style.FILL_AND_STROKE
     }
+
+    var backColor : Int = Color.WHITE
+
+    constructor(context: Context, color: Int) : this(context){
+       this.backColor = color
+        setBackgroundColor(backColor)
+    }
+
+
+
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)

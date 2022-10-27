@@ -44,10 +44,10 @@ class DrawingAreaActivity : AppCompatActivity() {
         val title = intent.getStringExtra(TITLE_KEY) ?: getString(R.string.str_no_name)
 
 //        binding.frLayout.setBackgroundColor(Color.rgb(r, g, b))
-        binding.frLayout.setBackgroundColor(color)
+//        binding.frLayout.setBackgroundColor(color)
         supportActionBar?.title = "${getString(R.string.sketches)}: $title"
 
-        drawingArea = DrawingArea(this)
+        drawingArea = DrawingArea(this, color)
         binding.frLayout.addView(drawingArea)
     }
 }
