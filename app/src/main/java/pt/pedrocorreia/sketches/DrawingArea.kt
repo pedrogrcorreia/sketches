@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.util.Log
 import android.view.GestureDetector
@@ -21,11 +22,13 @@ class DrawingArea @JvmOverloads constructor(
         private const val TAG = "DrawingArea"
     }
 
-    val paint = Paint(Paint.DITHER_FLAG).also {
+    private val paint = Paint(Paint.DITHER_FLAG).also {
         it.color = Color.BLACK
         it.strokeWidth = 4.0f
         it.style = Paint.Style.FILL_AND_STROKE
     }
+
+    val path = Path()
 
     var backColor : Int = Color.WHITE
 
@@ -40,7 +43,8 @@ class DrawingArea @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawLine(50f,50f,250f,250f, paint)
+//        canvas?.drawLine(50f,50f,250f,250f, paint)
+        canvas?.drawPath(path, paint)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -52,6 +56,8 @@ class DrawingArea @JvmOverloads constructor(
 
     override fun onDown(p0: MotionEvent?): Boolean {
         Log.i(TAG, "onDown ")
+        path.moveTo(p0!!.x, p0.y)
+        invalidate()
         return true
     }
 
@@ -66,7 +72,10 @@ class DrawingArea @JvmOverloads constructor(
 
     override fun onScroll(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
         Log.i(TAG, "onScroll ${p0?.x} ${p1?.x}")
-        return false
+        path.lineTo(p1!!.x, p1.y)
+        path.moveTo(p1.x, p1.y)
+        invalidate()
+        return true
     }
 
     override fun onLongPress(p0: MotionEvent?) {
