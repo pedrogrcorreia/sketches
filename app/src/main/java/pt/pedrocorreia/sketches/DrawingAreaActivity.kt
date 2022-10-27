@@ -25,6 +25,8 @@ class DrawingAreaActivity : AppCompatActivity() {
         }
     }
 
+    lateinit var drawingArea : DrawingArea
+
     lateinit var binding: ActivityDrawingAreaBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,5 +46,8 @@ class DrawingAreaActivity : AppCompatActivity() {
 //        binding.frLayout.setBackgroundColor(Color.rgb(r, g, b))
         binding.frLayout.setBackgroundColor(color)
         supportActionBar?.title = "${getString(R.string.sketches)}: $title"
+
+        drawingArea = DrawingArea(this)
+        binding.frLayout.addView(drawingArea)
     }
 }

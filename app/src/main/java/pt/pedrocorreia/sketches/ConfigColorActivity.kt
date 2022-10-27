@@ -14,7 +14,15 @@ import pt.pedrocorreia.sketches.databinding.ActivityConfigColorBinding
 import pt.pedrocorreia.sketches.databinding.ActivityMainBinding
 
 class ConfigColorActivity : AppCompatActivity() {
+    var color : Int = Color.WHITE
+        get() = Color.rgb(
+            binding.seekRed.progress,
+            binding.seekGreen.progress,
+            binding.seekBlue.progress,
+        )
+
     lateinit var binding: ActivityConfigColorBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityConfigColorBinding.inflate(layoutInflater)
@@ -67,13 +75,6 @@ class ConfigColorActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.create_menu, menu)
         return true
     }
-
-    var color : Int = Color.WHITE
-        get() = Color.rgb(
-            binding.seekRed.progress,
-            binding.seekGreen.progress,
-            binding.seekBlue.progress,
-        )
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id : Int = item.itemId
