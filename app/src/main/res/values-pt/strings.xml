@@ -17,4 +17,8 @@
     <string name="mn_yellow">Amarelo</string>
     <string name="mn_blue">Azul</string>
     <string name="mn_black">Preto</string>
+    <string name="ask_background_image">Imagem de fundo:</string>
+    <string name="btn_choose_image">Escolher imagem</string>
+    <string name="btn_take_photo">Tirar foto</string>
+    <string name="msg_no_image">Sem imagem definida</string>
 </resources>

@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import pt.pedrocorreia.sketches.databinding.ActivityDrawingAreaBinding
 
@@ -60,7 +61,9 @@ class DrawingAreaActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when {
-            item.itemId == R.id.mnSave -> {}
+            item.itemId == R.id.mnSave -> {
+                Toast.makeText(this, R.string.todo, Toast.LENGTH_SHORT).show()
+            }
             item.groupId == R.id.grpColors -> {
                 item.isChecked = true
                 drawingArea.lineColor = when(item.itemId) {

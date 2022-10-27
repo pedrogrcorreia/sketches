@@ -18,4 +18,8 @@
     <string name="mn_yellow">Gelb</string>
     <string name="mn_blue">Blau</string>
     <string name="mn_black">Schwarz</string>
+    <string name="ask_background_image">Hintergrundbild</string>
+    <string name="btn_choose_image">Bild wählen</string>
+    <string name="btn_take_photo">Foto machen</string>
+    <string name="msg_no_image">kein Bild definiert</string>
 </resources>

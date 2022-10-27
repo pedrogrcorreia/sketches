@@ -24,8 +24,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             intent = Intent(this, ConfigColorActivity::class.java)
             startActivity(intent)
         }
-        btnGallery.setOnClickListener(makeSnackbar)
-        btnPhoto.setOnClickListener(this)
+        btnGallery.setOnClickListener{
+            startActivity(ConfigImageActivity.getGalleryIntent(this))
+        }
+        btnPhoto.setOnClickListener{
+            startActivity(ConfigImageActivity.getCameraIntent(this))
+        }
         btnHistory.setOnClickListener(makeSnackbar)
     }
 
