@@ -13,4 +13,9 @@
     <string name="msg_empty_title">Sie müssen eine Farbe angeben</string>
     <string name="str_no_name">Kein name</string>
     <string name="create">Schaffen</string>
+    <string name="mn_save">Sparen</string>
+    <string name="mn_white">Weiß</string>
+    <string name="mn_yellow">Gelb</string>
+    <string name="mn_blue">Blau</string>
+    <string name="mn_black">Schwarz</string>
 </resources>

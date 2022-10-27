@@ -11,6 +11,8 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 
+data class Line(val path: Path, val color: Int)
+
 class DrawingArea @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

@@ -15,4 +15,9 @@
     <string name="msg_empty_title">You must give a title</string>
     <string name="str_no_name">No name</string>
     <string name="create">Create</string>
+    <string name="mn_save">Save</string>
+    <string name="mn_white">White</string>
+    <string name="mn_yellow">Yellow</string>
+    <string name="mn_blue">Blue</string>
+    <string name="mn_black">Black</string>
 </resources>
