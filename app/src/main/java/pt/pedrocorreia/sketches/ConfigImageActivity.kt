@@ -3,12 +3,16 @@ package pt.pedrocorreia.sketches
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import pt.pedrocorreia.sketches.databinding.ActivityConfigImageBinding
+import java.io.File
 
 class ConfigImageActivity : AppCompatActivity() {
 
@@ -92,7 +96,18 @@ class ConfigImageActivity : AppCompatActivity() {
     }
 
     private fun takePhoto(){
-        Toast.makeText(this, R.string.todo, Toast.LENGTH_LONG).show()
+        imagePath = getTempFilename(this)
+        startActivityForTakePhotoResult.launch(
+            FileProvider.getUriForFile(this,
+                "pt.pedrocorreia.sketches.android.fileprovider",
+                File(imagePath) )
+        )
+    }
+
+    private var startActivityForTakePhotoResult = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) { updatePreview() }
     }
 
     private fun updatePreview(){
