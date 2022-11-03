@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import pt.pedrocorreia.sketches.databinding.ActivityConfigImageBinding
@@ -36,6 +37,10 @@ class ConfigImageActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityConfigImageBinding
     private var permissionsGranted = false
+        set(value){
+            field = value
+            binding.btnImage.isEnabled = value
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,39 +66,54 @@ class ConfigImageActivity : AppCompatActivity() {
         verifyPermissions()
     }
 
-    private fun verifyPermissions(){
-        if ( ContextCompat.checkSelfPermission(this,
+//    private fun verifyPermissions(){
+//        if ( ContextCompat.checkSelfPermission(this,
+//                android.Manifest.permission.READ_EXTERNAL_STORAGE
+//            ) != PackageManager.PERMISSION_GRANTED ||
+//            ContextCompat.checkSelfPermission(this,
+//                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            ) != PackageManager.PERMISSION_GRANTED
+//        )  {
+//            permissionsGranted = false
+//            ActivityCompat.requestPermissions(this,
+//                arrayOf(
+//                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                ),
+//                PERMISSION_REQUEST_CODE
+//            )
+//        } else {
+//            permissionsGranted = true
+//        }
+//    }
+
+    private fun verifyPermissions() {
+        requestPermissionsLauncher.launch(
+            arrayOf(
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        )  {
-            permissionsGranted = false
-            ActivityCompat.requestPermissions(this,
-                arrayOf(
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ),
-                PERMISSION_REQUEST_CODE
             )
-        } else {
-            permissionsGranted = true
-        }
+        )
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            permissionsGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED}
-            return
-        }
-        super.onRequestPermissionsResult(
-            requestCode, permissions, grantResults)
+    private val requestPermissionsLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { grantResults -> // Map<String,Boolean>
+        permissionsGranted = grantResults.values.all { it }
     }
+
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int,
+//        permissions: Array<out String>,
+//        grantResults: IntArray
+//    ) {
+//        if (requestCode == PERMISSION_REQUEST_CODE) {
+//            permissionsGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED}
+//            return
+//        }
+//        super.onRequestPermissionsResult(
+//            requestCode, permissions, grantResults)
+//    }
 
     private fun chooseImage(){
         Toast.makeText(this, R.string.todo, Toast.LENGTH_LONG).show()
