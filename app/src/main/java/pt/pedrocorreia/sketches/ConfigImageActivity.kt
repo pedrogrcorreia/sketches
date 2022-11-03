@@ -82,20 +82,13 @@ class ConfigImageActivity : AppCompatActivity() {
     }
 
     private fun chooseImage(){
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForGalleryResult.launch(intent)
+        startActivityForContentResult.launch("image/*")
     }
 
-    private var startActivityForGalleryResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult() ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val resultIntent = result.data
-            resultIntent?.data?.let { uri ->
-                imagePath = createFileFromUri(this, uri)
-                updatePreview()
-            }
-        }
+    private var startActivityForContentResult = registerForActivityResult(
+        ActivityResultContracts.GetContent() ) { uri ->
+        imagePath = uri?.let { createFileFromUri(this, uri) }
+        updatePreview()
     }
 
     private fun takePhoto(){
