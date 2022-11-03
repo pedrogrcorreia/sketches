@@ -15,15 +15,27 @@ class DrawingAreaActivity : AppCompatActivity() {
     companion object {
         const val TITLE_KEY = "title"
         const val COLOR_KEY = "color"
+        const val IMAGE_KEY = "imageFile"
 
         fun getIntent(
             context: Context,
             title: String,
-            background_color: Int
+            background_color: Int,
         ) : Intent {
             val intent = Intent(context, DrawingAreaActivity::class.java)
             intent.putExtra(TITLE_KEY, title)
             intent.putExtra(COLOR_KEY, background_color)
+            return intent
+        }
+
+        fun getIntent(
+            context: Context,
+            title: String,
+            imagePath: String,
+        ) : Intent {
+            val intent = Intent(context, DrawingAreaActivity::class.java)
+            intent.putExtra(TITLE_KEY, title)
+            intent.putExtra(IMAGE_KEY, imagePath)
             return intent
         }
     }
@@ -45,12 +57,16 @@ class DrawingAreaActivity : AppCompatActivity() {
 //        val b = intent.getIntExtra("Blue", 255)
         val color = intent.getIntExtra(COLOR_KEY, Color.WHITE)
         val title = intent.getStringExtra(TITLE_KEY) ?: getString(R.string.str_no_name)
-
+        val imagePath = intent.getStringExtra(IMAGE_KEY)
 //        binding.frLayout.setBackgroundColor(Color.rgb(r, g, b))
 //        binding.frLayout.setBackgroundColor(color)
         supportActionBar?.title = "${getString(R.string.sketches)}: $title"
 
-        drawingArea = DrawingArea(this, color)
+        drawingArea = if(imagePath == null) {
+            DrawingArea(this, color)
+        } else{
+            DrawingArea(this, imagePath)
+        }
         binding.frLayout.addView(drawingArea)
     }
 

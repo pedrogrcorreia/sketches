@@ -45,9 +45,21 @@ class DrawingArea @JvmOverloads constructor(
 
     var backColor : Int = Color.WHITE
 
+    var imageFile : String? = null
+
     constructor(context: Context, color: Int) : this(context){
        this.backColor = color
         setBackgroundColor(backColor)
+    }
+
+    constructor(context: Context, imageFile: String?) : this(context){
+        this.imageFile = imageFile
+        setPic(this, imageFile!!)
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        imageFile?.let {setPic(this, it)}
     }
 
     private val gestureDetector : GestureDetector by lazy {

@@ -7,6 +7,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
@@ -118,5 +120,32 @@ class ConfigImageActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.create_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id : Int = item.itemId
+        if(id == R.id.menuCreate && imagePath != null /*TODO snackbar if imagepath is null*/){
+            if(binding.edTitle.text.isEmpty()){
+                Toast.makeText(this, R.string.msg_empty_title, Toast.LENGTH_LONG).show()
+                binding.edTitle.requestFocus()
+                return true
+            }
+
+            val intent = DrawingAreaActivity.getIntent(
+                this,
+                binding.edTitle.text.toString(),
+                imagePath!!
+            )
+
+            startActivity(intent)
+            finish()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 
 }
