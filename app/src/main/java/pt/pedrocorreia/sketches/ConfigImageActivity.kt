@@ -1,16 +1,26 @@
 package pt.pedrocorreia.sketches
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import pt.pedrocorreia.sketches.databinding.ActivityConfigImageBinding
 import pt.pedrocorreia.sketches.databinding.ActivityDrawingAreaBinding
+import java.io.File
+import java.io.FileOutputStream
+import kotlin.math.max
+import kotlin.math.min
 
 class ConfigImageActivity : AppCompatActivity() {
 
@@ -19,6 +29,8 @@ class ConfigImageActivity : AppCompatActivity() {
         private const val GALLERY = 1
         private const val CAMERA = 2
         private const val MODE_KEY = "mode"
+
+        private var imagePath : String? = null
 
         fun getGalleryIntent(context: Context) : Intent{
             val intent = Intent(context, ConfigImageActivity::class.java)
@@ -64,6 +76,7 @@ class ConfigImageActivity : AppCompatActivity() {
         }
 
         verifyPermissions()
+        updatePreview()
     }
 
 //    private fun verifyPermissions(){
@@ -116,10 +129,51 @@ class ConfigImageActivity : AppCompatActivity() {
 //    }
 
     private fun chooseImage(){
-        Toast.makeText(this, R.string.todo, Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, R.string.todo, Toast.LENGTH_LONG).show()
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForGalleryResult.launch(intent)
+    }
+
+    private var startActivityForGalleryResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult() ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val resultIntent = result.data
+            resultIntent?.data?.let { uri ->
+                imagePath = createFileFromUri(this, uri)
+                    updatePreview()
+            }
+        }
     }
 
     private fun takePhoto(){
         Toast.makeText(this, R.string.todo, Toast.LENGTH_LONG).show()
+    }
+
+    private fun updatePreview(){
+        if(imagePath != null){
+            setPic(binding.frPreview, imagePath!!)
+        }
+    }
+
+    private fun setPic(view: View, path: String) {
+        val targetW = view.width
+        val targetH = view.height
+        if (targetH < 1 || targetW < 1)
+            return
+        val bmpOptions = BitmapFactory.Options()
+        bmpOptions.inJustDecodeBounds = true // apenas ir buscar os limites da imagem
+        BitmapFactory.decodeFile(path, bmpOptions)
+        val photoW = bmpOptions.outWidth
+        val photoH = bmpOptions.outHeight
+        val scale = max(1,min(photoW / targetW, photoH / targetH))
+        bmpOptions.inSampleSize = scale // meter a escala nas options
+        bmpOptions.inJustDecodeBounds = false // tirar ir buscar apenas os limites
+        val bitmap = BitmapFactory.decodeFile(path, bmpOptions) // agora lê o bitmap com a escala definida
+        when (view) {
+            is ImageView -> (view as ImageView).setImageBitmap(bitmap)
+            //else -> view.background = bitmap.toDrawable(view.resources)
+            else -> view.background = BitmapDrawable(view.resources, bitmap)
+        }
     }
 }
