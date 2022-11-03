@@ -3,29 +3,16 @@ package pt.pedrocorreia.sketches
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import pt.pedrocorreia.sketches.databinding.ActivityConfigImageBinding
-import pt.pedrocorreia.sketches.databinding.ActivityDrawingAreaBinding
-import java.io.File
-import java.io.FileOutputStream
-import kotlin.math.max
-import kotlin.math.min
 
 class ConfigImageActivity : AppCompatActivity() {
 
     companion object {
-        private const val PERMISSION_REQUEST_CODE = 10
         private const val GALLERY = 1
         private const val CAMERA = 2
         private const val MODE_KEY = "mode"
@@ -79,27 +66,6 @@ class ConfigImageActivity : AppCompatActivity() {
         updatePreview()
     }
 
-//    private fun verifyPermissions(){
-//        if ( ContextCompat.checkSelfPermission(this,
-//                android.Manifest.permission.READ_EXTERNAL_STORAGE
-//            ) != PackageManager.PERMISSION_GRANTED ||
-//            ContextCompat.checkSelfPermission(this,
-//                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-//            ) != PackageManager.PERMISSION_GRANTED
-//        )  {
-//            permissionsGranted = false
-//            ActivityCompat.requestPermissions(this,
-//                arrayOf(
-//                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-//                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-//                ),
-//                PERMISSION_REQUEST_CODE
-//            )
-//        } else {
-//            permissionsGranted = true
-//        }
-//    }
-
     private fun verifyPermissions() {
         requestPermissionsLauncher.launch(
             arrayOf(
@@ -115,21 +81,7 @@ class ConfigImageActivity : AppCompatActivity() {
         permissionsGranted = grantResults.values.all { it }
     }
 
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        if (requestCode == PERMISSION_REQUEST_CODE) {
-//            permissionsGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED}
-//            return
-//        }
-//        super.onRequestPermissionsResult(
-//            requestCode, permissions, grantResults)
-//    }
-
     private fun chooseImage(){
-//        Toast.makeText(this, R.string.todo, Toast.LENGTH_LONG).show()
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForGalleryResult.launch(intent)
@@ -141,7 +93,7 @@ class ConfigImageActivity : AppCompatActivity() {
             val resultIntent = result.data
             resultIntent?.data?.let { uri ->
                 imagePath = createFileFromUri(this, uri)
-                    updatePreview()
+                updatePreview()
             }
         }
     }
@@ -153,27 +105,10 @@ class ConfigImageActivity : AppCompatActivity() {
     private fun updatePreview(){
         if(imagePath != null){
             setPic(binding.frPreview, imagePath!!)
+        } else{
+            binding.frPreview.background = ResourcesCompat.getDrawable(resources, android.R.drawable.ic_menu_report_image, null)
         }
     }
 
-    private fun setPic(view: View, path: String) {
-        val targetW = view.width
-        val targetH = view.height
-        if (targetH < 1 || targetW < 1)
-            return
-        val bmpOptions = BitmapFactory.Options()
-        bmpOptions.inJustDecodeBounds = true // apenas ir buscar os limites da imagem
-        BitmapFactory.decodeFile(path, bmpOptions)
-        val photoW = bmpOptions.outWidth
-        val photoH = bmpOptions.outHeight
-        val scale = max(1,min(photoW / targetW, photoH / targetH))
-        bmpOptions.inSampleSize = scale // meter a escala nas options
-        bmpOptions.inJustDecodeBounds = false // tirar ir buscar apenas os limites
-        val bitmap = BitmapFactory.decodeFile(path, bmpOptions) // agora lê o bitmap com a escala definida
-        when (view) {
-            is ImageView -> (view as ImageView).setImageBitmap(bitmap)
-            //else -> view.background = bitmap.toDrawable(view.resources)
-            else -> view.background = BitmapDrawable(view.resources, bitmap)
-        }
-    }
+
 }
