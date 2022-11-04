@@ -3,11 +3,14 @@ package pt.pedrocorreia.sketches
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import pt.pedrocorreia.sketches.databinding.ActivityMainBinding
+import java.io.File
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding : ActivityMainBinding
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnPhoto.setOnClickListener{
             startActivity(ConfigImageActivity.getCameraIntent(this))
         }
-        btnHistory.setOnClickListener(makeSnackbar)
+        btnHistory.setOnClickListener(procHistory)
     }
 
     // Function to retrieve a toast on a button click
@@ -41,5 +44,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val makeSnackbar = View.OnClickListener {
         Snackbar.make(it, "${(it as Button).text}: ${getString(R.string.todo)}", Snackbar.LENGTH_LONG).show()
+    }
+
+    private val procHistory = View.OnClickListener {
+        val builder = AlertDialog.Builder(this)
+        val file = File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath)
+
+        val items : ArrayList<String> = ArrayList()
+       val files = file.listFiles()
+
+        for(file in files){
+            items.add(file.name)
+        }
+
+        with(builder) {
+            setTitle("Saved sketches")
+            setItems(items.toArray(Array<String>(4) { "it = $it"})){dialog, which -> }
+        }
+        builder.show()
     }
 }
