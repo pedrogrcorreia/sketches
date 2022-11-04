@@ -22,4 +22,5 @@
     <string name="btn_choose_image">Bild wählen</string>
     <string name="btn_take_photo">Foto machen</string>
     <string name="msg_no_image">kein Bild definiert</string>
+    <string name="history_title">gespeicherte Skizzen</string>
 </resources>

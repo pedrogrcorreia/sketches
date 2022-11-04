@@ -63,3 +63,13 @@ fun saveSketchLocation(context : Context, prefix : String = "Sketch", extension 
 fun saveSketch(savePath : String, bitmap : Bitmap) : Boolean{
     return bitmap.compress(Bitmap.CompressFormat.PNG, 100, FileOutputStream(File(savePath)))
 }
+
+fun saveLocation(context : Context) : String{
+    val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath)
+    return file.absolutePath
+}
+
+fun getSketch(context : Context, filename: String, prefix: String) : String {
+    val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath!!+"/$filename$prefix")
+    return file.absolutePath
+}

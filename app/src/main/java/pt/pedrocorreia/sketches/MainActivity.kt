@@ -48,18 +48,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private val procHistory = View.OnClickListener {
         val builder = AlertDialog.Builder(this)
-        val file = File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath)
+        val file = File(saveLocation(this))
 
         val items : ArrayList<String> = ArrayList()
        val files = file.listFiles()
 
         for(file in files){
-            items.add(file.name)
+            items.add(file.nameWithoutExtension)
         }
 
         with(builder) {
-            setTitle("Saved sketches")
-            setItems(items.toArray(Array<String>(4) { "it = $it"})){dialog, which -> }
+            setTitle(R.string.history_title)
+            setItems(items.toArray(Array<String>(4) { "it = $it"})){dialog, which ->
+                val intent = DrawingAreaActivity.getIntent(
+                this.context,
+                items[which],
+                getSketch(this.context, items[which], ".png")
+            )
+                startActivity(intent)
+//                finish()
+            }
         }
         builder.show()
     }

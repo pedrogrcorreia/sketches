@@ -21,4 +21,5 @@
     <string name="btn_choose_image">Escolher imagem</string>
     <string name="btn_take_photo">Tirar foto</string>
     <string name="msg_no_image">Sem imagem definida</string>
+    <string name="history_title">Rascunhos guardados</string>
 </resources>
