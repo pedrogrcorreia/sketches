@@ -8,6 +8,7 @@ Project developed using Android Studio to learn and train Android development sk
 
 - [x] Create sketch using a solid color
     - [x] Use the gesture detector to draw
-- [ ] Create sketch using an image from gallery
-- [ ] Create sketch using a photo
-- [ ] View sketches history
+- [x] Create sketch using an image from gallery
+- [x] Create sketch using a photo
+- [x] View sketches history
+- [x] Open sketch from history
