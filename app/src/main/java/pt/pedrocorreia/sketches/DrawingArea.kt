@@ -57,6 +57,7 @@ class DrawingArea @JvmOverloads constructor(
         setPic(this, imageFile!!)
     }
 
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         imageFile?.let {setPic(this, it)}

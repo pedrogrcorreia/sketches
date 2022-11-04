@@ -1,9 +1,11 @@
 package pt.pedrocorreia.sketches
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.os.Environment
 import android.view.View
 import android.widget.ImageView
 import java.io.File
@@ -50,4 +52,14 @@ fun setPic(view: View, path: String) {
         //else -> view.background = bitmap.toDrawable(view.resources)
         else -> view.background = BitmapDrawable(view.resources, bitmap)
     }
+}
+
+fun saveSketchLocation(context : Context, prefix : String = "Sketch", extension : String = ".png") : String {
+    val file = File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath!!+"/${prefix}$extension")
+    file.createNewFile()
+    return file.absolutePath
+}
+
+fun saveSketch(savePath : String, bitmap : Bitmap) : Boolean{
+    return bitmap.compress(Bitmap.CompressFormat.PNG, 100, FileOutputStream(File(savePath)))
 }

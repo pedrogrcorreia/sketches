@@ -2,13 +2,23 @@ package pt.pedrocorreia.sketches
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.core.view.drawToBitmap
 import pt.pedrocorreia.sketches.databinding.ActivityDrawingAreaBinding
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 
 class DrawingAreaActivity : AppCompatActivity() {
@@ -44,6 +54,8 @@ class DrawingAreaActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityDrawingAreaBinding
 
+    private var title : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDrawingAreaBinding.inflate(layoutInflater)
@@ -52,14 +64,9 @@ class DrawingAreaActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val intent = intent
-//        val r : Int = intent.getIntExtra("Red", 255)
-//        val g = intent.getIntExtra("Green", 255)
-//        val b = intent.getIntExtra("Blue", 255)
         val color = intent.getIntExtra(COLOR_KEY, Color.WHITE)
-        val title = intent.getStringExtra(TITLE_KEY) ?: getString(R.string.str_no_name)
+        title = intent.getStringExtra(TITLE_KEY) ?: getString(R.string.str_no_name)
         val imagePath = intent.getStringExtra(IMAGE_KEY)
-//        binding.frLayout.setBackgroundColor(Color.rgb(r, g, b))
-//        binding.frLayout.setBackgroundColor(color)
         supportActionBar?.title = "${getString(R.string.sketches)}: $title"
 
         drawingArea = if(imagePath == null) {
@@ -78,7 +85,9 @@ class DrawingAreaActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when {
             item.itemId == R.id.mnSave -> {
-                Toast.makeText(this, R.string.todo, Toast.LENGTH_SHORT).show()
+                val bitmap : Bitmap = drawingArea.drawToBitmap()
+                val savePath = saveSketchLocation(this, title!!)
+                saveSketch(savePath, bitmap)
             }
             item.groupId == R.id.grpColors -> {
                 item.isChecked = true
