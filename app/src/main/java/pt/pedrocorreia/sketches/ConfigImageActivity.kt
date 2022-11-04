@@ -127,13 +127,17 @@ class ConfigImageActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id : Int = item.itemId
-        if(id == R.id.menuCreate && imagePath != null /*TODO snackbar if imagepath is null*/){
+        if(id == R.id.menuCreate){
             if(binding.edTitle.text.isEmpty()){
                 Toast.makeText(this, R.string.msg_empty_title, Toast.LENGTH_LONG).show()
                 binding.edTitle.requestFocus()
                 return true
             }
-
+            if(imagePath == null){
+                Toast.makeText(this, R.string.msg_no_image, Toast.LENGTH_LONG).show()
+                binding.btnImage.requestFocus()
+                return true
+            }
             val intent = DrawingAreaActivity.getIntent(
                 this,
                 binding.edTitle.text.toString(),
